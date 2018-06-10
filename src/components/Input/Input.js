@@ -25,9 +25,16 @@ class Input extends Component {
     return error
   }
 
-  handleOnChange = (e, { setValue, setError }) => {
-    setError(e, this.validate(e))
+  handleOnChange = (e, { setValue, setError, values }) => {
+    if (e.target.value && !values[this.props.name]) {
+      setError(this.props.name, "")
+    }
+
     setValue(e)
+  }
+
+  handleOnBlur = (e, { setError }) => {
+    setError(e.target.name, this.validate(e))
   }
 
   render() {
@@ -43,6 +50,7 @@ class Input extends Component {
               name={name}
               value={context.values[name]}
               onChange={e => this.handleOnChange(e, context)}
+              onBlur={e => this.handleOnBlur(e, context)}
               {...restInputProps}
             />
 

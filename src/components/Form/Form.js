@@ -30,11 +30,11 @@ class Form extends Component {
     })
   }
 
-  setError = (e, error) => {
+  setError = (name, error) => {
     this.setState({
       errors: {
         ...this.state.errors,
-        [e.target.name]: error,
+        [name]: error,
       },
     })
   }
