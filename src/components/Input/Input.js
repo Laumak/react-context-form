@@ -15,11 +15,11 @@ class Input extends Component {
     label: "",
   }
 
-  validate = e => {
+  validate = (value, label) => {
     let error = ""
 
-    if (!e.target.value) {
-      error = `${e.target.name} is required!`
+    if (!value) {
+      error = `${label} is required!`
     }
 
     return error
@@ -34,7 +34,9 @@ class Input extends Component {
   }
 
   handleOnBlur = (e, { setError }) => {
-    setError(e.target.name, this.validate(e))
+    const error = this.validate(e.target.value, this.props.label)
+
+    setError(e.target.name, error)
   }
 
   render() {
