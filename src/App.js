@@ -5,36 +5,21 @@ import Form from "./components/Form"
 import Input from "./components/Input"
 
 class App extends Component {
-  state = {
-    input_1: "",
-    input_2: "",
-  }
-
-  handleOnChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  handleOnSubmit = values => {
+    console.log(values)
   }
 
   render() {
     return (
       <div className="app">
-        <Form className="app--form">
-          {formProps => (
-            <React.Fragment>
-              <Input
-                name="input_1"
-                label="Input 1"
-                value={this.state.input_1}
-                onChange={this.handleOnChange}
-              />
+        <Form
+          className="app--form"
+          onSubmit={this.handleOnSubmit}
+          defaultValues={{ input_1: "", input_2: "" }}
+        >
+          <Input name="input_1" label="Input 1" />
 
-              <Input
-                name="input_2"
-                label="Input 2"
-                value={this.state.input_2}
-                onChange={this.handleOnChange}
-              />
-            </React.Fragment>
-          )}
+          <Input name="input_2" label="Input 2" />
         </Form>
       </div>
     )

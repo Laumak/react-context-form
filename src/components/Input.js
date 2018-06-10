@@ -1,13 +1,12 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
+import { FormConsumer } from "./Form/Form"
+
 class Input extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    onChange: PropTypes.func.isRequired,
-
-    label: PropTypes.string,
+    label: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -17,14 +16,23 @@ class Input extends Component {
   state = {}
 
   render() {
-    const { label, ...inputProps } = this.props
+    const { name, label, ...restInputProps } = this.props
 
     return (
-      <div className="input">
-        <p>{label}</p>
+      <FormConsumer>
+        {context => (
+          <div className="input">
+            <p>{label}</p>
 
-        <input {...inputProps} />
-      </div>
+            <input
+              name={name}
+              value={context.values[name]}
+              onChange={context.setValue}
+              {...restInputProps}
+            />
+          </div>
+        )}
+      </FormConsumer>
     )
   }
 }
