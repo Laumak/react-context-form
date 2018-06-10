@@ -1,7 +1,9 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import { FormConsumer } from "./Form/Form"
+import "./Input.css"
+
+import { FormConsumer } from "../Form/Form"
 
 class Input extends Component {
   static propTypes = {
@@ -13,7 +15,20 @@ class Input extends Component {
     label: "",
   }
 
-  state = {}
+  validate = e => {
+    let error = ""
+
+    if (!e.target.value) {
+      error = `${e.target.name} is required!`
+    }
+
+    return error
+  }
+
+  handleOnChange = (e, { setValue, setError }) => {
+    setError(e, this.validate(e))
+    setValue(e)
+  }
 
   render() {
     const { name, label, ...restInputProps } = this.props
@@ -27,9 +42,13 @@ class Input extends Component {
             <input
               name={name}
               value={context.values[name]}
-              onChange={context.setValue}
+              onChange={e => this.handleOnChange(e, context)}
               {...restInputProps}
             />
+
+            {context.errors[name] && (
+              <p className="input--error">{context.errors[name]}</p>
+            )}
           </div>
         )}
       </FormConsumer>
